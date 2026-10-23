@@ -1105,3 +1105,91 @@ code {
     text-align: center;
   }
 }
+
+/* =====================================================================
+   DORCAS — custom improvements layered over the base design
+   (palette, alternating project cards, scroll-spy nav, section numbers)
+   ===================================================================== */
+
+/* --- Distinct palette: petrol blue + warm amber --- */
+:root {
+  --accent: #12566b;
+  --accent-2: #c2763a;
+  --accent-soft: rgba(18, 86, 107, 0.10);
+  --hero-grad-1: rgba(18, 86, 107, 0.12);
+  --hero-grad-2: rgba(194, 118, 58, 0.12);
+}
+
+:root[data-theme="dark"] {
+  --accent: #46b5c9;
+  --accent-2: #e0a561;
+  --accent-soft: rgba(70, 181, 201, 0.12);
+  --hero-grad-1: rgba(70, 181, 201, 0.07);
+  --hero-grad-2: rgba(224, 165, 97, 0.06);
+}
+
+.button-primary {
+  background: linear-gradient(135deg, var(--accent), #1a7f93);
+}
+.button-primary:hover {
+  background: linear-gradient(135deg, #0f4d5e, #1b86a0);
+  box-shadow: 0 22px 55px rgba(18, 86, 107, 0.22);
+}
+[data-theme="dark"] .button-primary {
+  background: linear-gradient(135deg, #2a8ba0, #46b5c9);
+}
+[data-theme="dark"] .button-primary:hover {
+  background: linear-gradient(135deg, #34a0b8, #57c6da);
+}
+
+/* --- Anchor links clear the sticky header --- */
+section[id] { scroll-margin-top: 92px; }
+
+/* --- Numbered section headers (01 · …) --- */
+main { counter-reset: sec; }
+.section { counter-increment: sec; }
+.section .section-kicker::before {
+  content: counter(sec, decimal-leading-zero) "  ·  ";
+  color: var(--accent-2);
+}
+
+/* --- Scroll-spy: highlight the active section in the nav --- */
+.site-nav a.active {
+  color: var(--accent);
+  font-weight: 700;
+}
+
+/* --- Alternating (zig-zag) project cards for better rhythm --- */
+.project-card:nth-child(even) { grid-template-columns: 0.85fr 1.05fr; }
+.project-card:nth-child(even) .project-copy { order: 2; }
+.project-card:nth-child(even) .project-visual { order: 1; }
+
+/* subtle accent edge that animates in on hover */
+.project-card { position: relative; overflow: hidden; }
+.project-card::after {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; bottom: 0;
+  width: 4px;
+  background: linear-gradient(180deg, var(--accent), var(--accent-2));
+  transform: scaleY(0);
+  transform-origin: top;
+  transition: transform 0.35s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.project-card:hover::after { transform: scaleY(1); }
+
+/* --- Back-to-top link --- */
+.to-top {
+  font-weight: 700;
+  color: var(--accent) !important;
+}
+
+@media (max-width: 940px) {
+  /* keep copy above the visual when cards stack on mobile */
+  .project-card:nth-child(even) .project-copy { order: 0; }
+  .project-card:nth-child(even) .project-visual { order: 1; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .project-card::after { transition: none; }
+}

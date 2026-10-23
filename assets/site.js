@@ -158,3 +158,27 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
 });
+
+/* ===== SCROLL-SPY: highlight active section in the nav ===== */
+document.addEventListener('DOMContentLoaded', () => {
+  const navLinks = Array.from(document.querySelectorAll('.site-nav a[href^="#"]'));
+  if (!navLinks.length || !('IntersectionObserver' in window)) return;
+
+  const map = new Map();
+  navLinks.forEach(link => {
+    const section = document.getElementById(link.getAttribute('href').slice(1));
+    if (section) map.set(section, link);
+  });
+
+  const spy = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        navLinks.forEach(l => l.classList.remove('active'));
+        const link = map.get(entry.target);
+        if (link) link.classList.add('active');
+      }
+    });
+  }, { rootMargin: '-45% 0px -50% 0px', threshold: 0 });
+
+  map.forEach((link, section) => spy.observe(section));
+});
