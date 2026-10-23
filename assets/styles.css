@@ -1159,11 +1159,6 @@ main { counter-reset: sec; }
   font-weight: 700;
 }
 
-/* --- Alternating (zig-zag) project cards for better rhythm --- */
-.project-card:nth-child(even) { grid-template-columns: 0.85fr 1.05fr; }
-.project-card:nth-child(even) .project-copy { order: 2; }
-.project-card:nth-child(even) .project-visual { order: 1; }
-
 /* subtle accent edge that animates in on hover */
 .project-card { position: relative; overflow: hidden; }
 .project-card::after {
@@ -1182,12 +1177,6 @@ main { counter-reset: sec; }
 .to-top {
   font-weight: 700;
   color: var(--accent) !important;
-}
-
-@media (max-width: 940px) {
-  /* keep copy above the visual when cards stack on mobile */
-  .project-card:nth-child(even) .project-copy { order: 0; }
-  .project-card:nth-child(even) .project-visual { order: 1; }
 }
 
 @media (prefers-reduced-motion: reduce) {
